@@ -1,15 +1,21 @@
 const express = require('express');
 const router = express.Router();
 const routeGuard = require('./../middleware/route-guard');
+const IhgHotels = require('../json/ihgHotels');
+const IhgTwo = require('../json/ihgTwo');
+
 const axios = require('axios');
 
 
 let one = [
-  "PHXCV",
-  "CUNHC",
-  "CZMHA"
+
 ];
 
+let two = [
+
+]
+
+let three = [];
 
 
 let hotelsTested = [];
@@ -18,10 +24,22 @@ let batchActive = [];
 let hotelsActivated = 0;
 let hunger = 0;
 
-activateHotel = (id,provider) => {
+IhgTwo.map(hotel => {
+  // console.log(hotel)
+  if (hotel.hotelId) {
+    one.push(hotel.hotelId)
+  } else {
+    return;
+  }
+})
+
+activateHotel = (id, provider) => {
   let hotelToActivate = id;
   console.log('el id : ', id)
-  console.log('el provider : ', provider)
+  // console.log('el provider : ', provider)
+
+  let ihgProvider = "IHG"
+  console.log('el provider : ', ihgProvider)
   axios({
     method: "post",
     url: `https://go-us.derbysoftsec.com/api/go/shoppingengine/v4/hotels/${provider}/setup`,
@@ -41,7 +59,7 @@ activateHotel = (id,provider) => {
       },
       hotels: [
         {
-          supplierId: `${provider}`,
+          supplierId: ihgProvider,
           hotelId: hotelToActivate,
           status: "Actived",
         },
@@ -76,14 +94,14 @@ activateHotel = (id,provider) => {
         setTimeout(function () {
           console.log(':::::::::::::::ERROR FIX SET TIME OUT ID :::::::::::::::::::::::::::::::', id)
           activateHotel(id)
-        }, 7000)
+        }, 10000)
       }
       if (err && err.code == "ETIMEDOUT") {
         console.log(':::::::::::::ETIMEDOUT ERROR :::::::::::::: ', err)
         setTimeout(function () {
           console.log(':::::::::::::::ERROR FIX SET TIME OUT ID :::::::::::::::::::::::::::::::', id)
           activateHotel(id)
-        }, 7000)
+        }, 10000)
 
       }
 
@@ -93,7 +111,7 @@ activateHotel = (id,provider) => {
             setTimeout(() => {
               console.log(':::::::::::::::ERROR FIX SET TIME OUT ID :::::::::::::::::::::::::::::::', id);
               activateHotel(id);
-            }, 6000)
+            }, 10000)
           }
         }
       }
@@ -106,7 +124,7 @@ activateHotel = (id,provider) => {
 
 async function getActivation(hotelId) {
   const provider = "IHG";
-  await activateHotel(hotelId,provider);
+  await activateHotel(hotelId, provider);
 }
 
 async function getAllHotels() {
@@ -114,6 +132,9 @@ async function getAllHotels() {
 
   await Promise.all(apiPromises)
 }
+
+// console.log(one);
+getAllHotels()
 
 
 
