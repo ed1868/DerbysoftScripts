@@ -8,7 +8,7 @@ const axios = require('axios');
 
 
 let one = [
-
+"LAXWM"
 ];
 
 let two = [
@@ -24,14 +24,14 @@ let batchActive = [];
 let hotelsActivated = 0;
 let hunger = 0;
 
-IhgTwo.map(hotel => {
-  // console.log(hotel)
-  if (hotel.hotelId) {
-    one.push(hotel.hotelId)
-  } else {
-    return;
-  }
-})
+// IhgTwo.map(hotel => {
+//   // console.log(hotel)
+//   if (hotel.hotelId) {
+//     one.push(hotel.hotelId)
+//   } else {
+//     return;
+//   }
+// })
 
 activateHotel = (id, provider) => {
   let hotelToActivate = id;
